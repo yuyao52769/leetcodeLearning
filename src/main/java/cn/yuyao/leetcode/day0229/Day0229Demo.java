@@ -1,5 +1,7 @@
 package cn.yuyao.leetcode.day0229;
 
+import com.sun.org.apache.bcel.internal.generic.RET;
+
 import java.util.*;
 
 public class Day0229Demo {
@@ -170,5 +172,127 @@ public class Day0229Demo {
                 r = (++r) % 5;
             }
         }
+        return result;
+    }
+
+    /**
+     *
+     2269. 找到一个数字的 K 美丽值
+     一个整数 num 的 k 美丽值定义为 num 中符合以下条件的 子字符串 数目：
+
+     子字符串长度为 k 。
+     子字符串能整除 num 。
+     给你整数 num 和 k ，请你返回 num 的 k 美丽值。
+     允许有 前缀 0 。
+     0 不能整除任何值。
+     一个 子字符串 是一个字符串里的连续一段字符序列。
+
+     输入：num = 240, k = 2
+     输出：2
+     解释：以下是 num 里长度为 k 的子字符串：
+     - "240" 中的 "24" ：24 能整除 240 。
+     - "240" 中的 "40" ：40 能整除 240 。
+     所以，k 美丽值为 2 。
+     */
+    public int divisorSubstrings(int num, int k) {
+        int count = 0;
+        if (k <= 0) return count;
+        String numStr = String.valueOf(num);
+        int n = numStr.length();
+        if (n < k) return count;
+        int left = 0;
+        int right = k - 1;
+        Set<Integer> set = new HashSet<>();
+        while (right < n) {
+            Integer childNum = Integer.valueOf(numStr.substring(left, right + 1));
+            if (set.contains(childNum)) {
+                count++;
+            }  else if (!childNum.equals(0) && num % childNum == 0){
+                set.add(childNum);
+                count++;
+            }
+            left++;
+            right++;
+        }
+        return count;
+    }
+
+    /**
+     * 2379. 得到 K 个黑块的最少涂色次数
+     * 给你一个长度为 n 下标从 0 开始的字符串 blocks ，blocks[i] 要么是 'W' 要么是 'B' ，表示第 i 块的颜色。字符 'W' 和 'B' 分别表示白色和黑色。
+     *
+     * 给你一个整数 k ，表示想要 连续 黑色块的数目。
+     *
+     * 每一次操作中，你可以选择一个白色块将它 涂成 黑色块。
+     *
+     * 请你返回至少出现 一次 连续 k 个黑色块的 最少 操作次数。
+     *
+     * 输入：blocks = "WBBWWBBWBW", k = 7
+     * 输出：3
+     * 解释：
+     * 一种得到 7 个连续黑色块的方法是把第 0 ，3 和 4 个块涂成黑色。
+     * 得到 blocks = "BBBBBBBWBW" 。
+     * 可以证明无法用少于 3 次操作得到 7 个连续的黑块。
+     * 所以我们返回 3 。
+     */
+    public int minimumRecolors(String blocks, int k) {
+        int minCount = 0;
+        int curCunt = 0;
+        if (blocks.length() < k) return minCount;
+        Set<Integer> set = new HashSet<>();
+        int left = 0;
+        int right = k - 1;
+        for (int i = left; i <= right; i++) {
+            char charAt = blocks.charAt(i);
+            if (charAt == 'W') {
+                curCunt++;
+                set.add(i);
+            }
+        }
+        minCount = curCunt;
+        while (right < blocks.length() - 1) {
+            if (set.contains(left)) curCunt--;
+            left++;
+            if (blocks.charAt(++right) == 'W') {
+                set.add(right);
+                curCunt++;
+            }
+            minCount = Math.min(minCount, curCunt);
+        }
+
+        return minCount;
+    }
+
+    /**
+     * 2760. 最长奇偶子数组
+     * 给你一个下标从 0 开始的整数数组 nums 和一个整数 threshold 。
+     * 请你从 nums 的子数组中找出以下标 l 开头、下标 r 结尾 (0 <= l <= r < nums.length) 且满足以下条件的 最长子数组 ：
+     *
+     * nums[l] % 2 == 0
+     * 对于范围 [l, r - 1] 内的所有下标 i ，nums[i] % 2 != nums[i + 1] % 2
+     * 对于范围 [l, r] 内的所有下标 i ，nums[i] <= threshold
+     * 以整数形式返回满足题目要求的最长子数组的长度。
+     *
+     * 注意：子数组 是数组中的一个连续非空元素序列。
+     *
+     * 输入：nums = [3,2,5,4], threshold = 5
+     * 输出：3
+     * 解释：在这个示例中，我们选择从 l = 1 开始、到 r = 3 结束的子数组 => [2,5,4] ，满足上述条件。
+     * 因此，答案就是这个子数组的长度 3 。可以证明 3 是满足题目要求的最大长度。
+     */
+    public int longestAlternatingSubarray(int[] nums, int threshold) {
+        int maxCount = 0;
+        int left = 0;
+        int right = 0;
+        // 偶数的索引
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] % 2 == 0) set.add(i);
+        }
+
+        while (right < nums.length) {
+
+        }
+        return maxCount;
     }
 }
