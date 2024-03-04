@@ -8,8 +8,8 @@ public class Day0229Demo {
 
     public static void main(String[] args) {
         Day0229Demo demo = new Day0229Demo();
-        int[] decrypt = demo.decrypt(new int[]{2,4,2,4,10,3,10,7,10,5}, 1);
-        System.out.println(decrypt);
+        int b = demo.longestAlternatingSubarray2(new int[]{3, 2, 5, 4}, 5);
+        System.out.println(b);
 //        int a = 4;
 //        a = (++a) % 5;
 //        System.out.println(a);
@@ -284,15 +284,44 @@ public class Day0229Demo {
         int maxCount = 0;
         int left = 0;
         int right = 0;
+        int curCount = 0;
         // 偶数的索引
-        Set<Integer> set = new HashSet<>();
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] % 2 == 0) set.add(i);
-        }
+            if ( nums[i] % 2 == 0) {
+                map.put(i, 1) ;
+            } else {
+                map.put(i, 0);
 
+            }
+        }
         while (right < nums.length) {
+            if (nums[right] > threshold){
+                left = ++right;
+                if (right >= nums.length) break;
+                curCount = 0;
+            }
+            if (right == left ) continue;
+            if ((map.get(right) ^ map.get(right - 1)) == 1) {
+                curCount++;
+                right++;
+                maxCount = Math.max(maxCount, curCount);
+            } else {
+                curCount = 0;
+                left = right;
+                right++;
+            }
 
         }
         return maxCount;
+    }
+
+    public int longestAlternatingSubarray2(int[] nums, int threshold) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0] <= threshold ? 1 : 0;
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = nums[i] <= threshold && ((nums[i] & 1) != (nums[i - 1] & 1)) ? dp[i - 1] + 1 : dp[i - 1];
+        }
+        return dp[nums.length - 1];
     }
 }
