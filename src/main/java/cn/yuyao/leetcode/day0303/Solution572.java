@@ -81,4 +81,54 @@ public class Solution572 {
         }
         System.out.println("123");
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void getPrime4() {
+        boolean[] isPrime = new boolean[101];
+        isPrime[0] = isPrime[1] = true;
+        int[] result = new int[101];
+        int point = 0;
+        for (int i = 2; i < 101; i++) {
+            if (!isPrime[i]) {
+                result[++point] = i;
+            }
+            for (int j = 1; j <= point && result[j] * i < 101; j++) {
+                isPrime[i * result[j]] = true;
+                if ( i % result[j] == 0) break;
+            }
+        }
+    }
 }
