@@ -75,6 +75,23 @@ public class Day0229Demo {
         return false;
     }
 
+    public boolean containsNearbyDuplicate2Copy(int[] nums, int k) {
+        int l = 0;
+        int r = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        while (r < nums.length) {
+            if (r - l + 1 <= k) {
+                if (map.containsValue(nums[r])) {
+                    return true;
+                }
+                map.put(r, nums[r]);
+            } else {
+                map.remove(l++);
+            }
+        }
+        return false;
+    }
+
     /**
      * 1652. 拆炸弹
      * 你有一个炸弹需要拆除，时间紧迫！你的情报员会给你一个长度为 n 的 循环 数组 code 以及一个密钥 k 。

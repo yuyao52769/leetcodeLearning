@@ -57,6 +57,21 @@ public class Day0315 {
         return dp[length][size];
     }
 
+    public int test2Copy(int size, int[] weight, int[] value) {
+        int[][] dp = new int[weight.length + 1][size + 1];
+
+        for (int i = 1; i <= weight.length; i++) {
+            for (int j = 1; j <= size; j++) {
+                if (j >= weight[i-1]) {
+                    dp[i][j] = Math.max(dp[i-1][j], value[i-1] + dp[i-1][j-weight[i-1]]);
+                } else {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[weight.length][size];
+    }
+
     /**
      * 数组去重和排序
      */

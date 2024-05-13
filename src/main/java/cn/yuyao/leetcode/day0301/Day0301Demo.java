@@ -1,7 +1,5 @@
 package cn.yuyao.leetcode.day0301;
 
-import java.util.function.Predicate;
-
 public class Day0301Demo {
 
     public static void main(String[] args) {
@@ -34,6 +32,28 @@ public class Day0301Demo {
         }
 
         return dp[sLength][tLength];
+    }
+
+
+    public int test1Copy(String s, String t) {
+        int sLength = s.length();
+        int tLength = t.length();
+        int[][] dp = new int[tLength + 1][sLength + 1];
+        for (int j= 0; j <= s.length(); j++) {
+            dp[0][j] = 1;
+        }
+
+        for (int i = 1; i <= tLength; i++) {
+            for (int j = 1; j <= sLength; j++) {
+                if (s.charAt(j - 1) == t.charAt(i - 1)) {
+                    dp[i][j] = dp[i-1][j-1] + dp[i][j-1];
+                } else {
+                    dp[i][j] = dp[i][j-1];
+                }
+            }
+        }
+
+        return dp[tLength][sLength];
     }
 
     /**
@@ -338,6 +358,21 @@ public class Day0301Demo {
         return dp[prices.length - 1];
     }
 
+    public int maxProfitCopy(int[] prices) {
+        if (prices.length <= 1) return 0;
+        int[] dp = new int[prices.length];
+        int min = prices[0];
+        dp[0] = 0;
+        dp[1] = prices[1] > prices[0] ? prices[1] - prices[0] : 0;
+        if (prices.length == 2) return dp[1];
+        min = Math.min(min, prices[1]);
+        for (int i = 2; i < prices.length; i++) {
+            dp[i] = Math.max(dp[i-1], prices[i] - min);
+            min = Math.min(min, prices[i]);
+        }
+        return dp[prices.length-1];
+    }
+
     /**
      * 122. 买卖股票的最佳时机 II
      * 给你一个整数数组 prices ，其中 prices[i] 表示某支股票第 i 天的价格。
@@ -353,6 +388,21 @@ public class Day0301Demo {
             dp[i][0] = Math.max(dp[i-1][0], prices[i] + dp[i-1][1]);
             dp[i][1] = Math.max(dp[i-1][1], dp[i-1][0] - prices[i]);
         }
+        return dp[prices.length - 1][0];
+    }
+
+    public int maxProfit2Copy(int[] prices) {
+        int[][] dp = new int[prices.length][2];
+
+        // 0 代表没有持有股票  相当于卖股票
+        // 1 代表持有股票      相当于买股票
+        dp[0][0] = 0;
+        dp[0][1] = -prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            dp[i][0] = Math.max(dp[i-1][0], prices[i] + dp[i-1][1]);
+            dp[i][1] = Math.max(dp[i-1][1], dp[i-1][0] - prices[i]);
+        }
+
         return dp[prices.length - 1][0];
     }
 

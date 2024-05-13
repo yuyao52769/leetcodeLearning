@@ -201,6 +201,28 @@ public class Day0316 {
         return count;
     }
 
+    public int test8Copy(int n){
+        boolean[] notPrime = new boolean[n+1];
+        int index = 0;
+        int[] res = new int[n+1];
+        notPrime[0] = notPrime[1] = true;
+        for (int i = 2; i <= n; i++) {
+            if (!notPrime[i]) {
+                res[++index] = i;
+            }
+
+            for (int j = 1; j <= index && i * res[j] <= n; j++) {
+                notPrime[i * res[j]] = true;
+                if (i % res[j] == 0) break;
+            }
+        }
+        int count = 0;
+        for (int i = 1; i <= n; i++) {
+            if (res[i] != 0) count++;
+        }
+        return count;
+    }
+
     /**
      * 符合下列属性的数组arr称为山脉数组 ：
      * 给 你 由 整 数 组 成 的 山 脉 数 组 arr ， 返 回 任 何 满 足 arr[0]<arr[1]<...arr[i-1]

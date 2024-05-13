@@ -356,6 +356,31 @@ public class Day0303Demo {
         return dp[len - 1];
     }
 
+    public int numDecodingsCo(String s) {
+        int[] dp = new int[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            dp[i] = 0;
+            boolean zero = s.charAt(i) == '0';
+            if (i == 0) {
+                dp[i] = zero ? 0 : 1;
+            } else {
+                if (!zero) {
+                    dp[i] += dp[i-1];
+                }
+
+                if (i >= 1 && (s.charAt(i - 1) == '1' || s.charAt(i - 1) == '2') && s.charAt(i) <= '6') {
+                    if (i == 1) {
+                        dp[i]++;
+                    } else {
+                        dp[i] += dp[i-2];
+                    }
+
+                }
+            }
+        }
+        return dp[s.length() - 1];
+    }
+
     /**
      * 1043. 分隔数组以得到最大和
      * 给你一个整数数组 arr，请你将该数组分隔为长度 最多 为 k 的一些（连续）子数组。分隔完成后，每个子数组的中的所有值都会变为该子数组中的最大值。
