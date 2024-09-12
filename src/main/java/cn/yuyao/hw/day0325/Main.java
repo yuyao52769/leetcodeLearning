@@ -16,7 +16,7 @@ public class Main {
      * 2、两个数无限大，long都装不下；
      * 3、不能用BigInteger；
      * 4、不能用任何包装类提供的运算方法；
-     * 5、两个数都是以字符串的方式提供。
+     * 5、两个数都是以字符串的方式提供。hahaha
      */
     public static String sum(String s1, String s2) {
         int pre = 0;
